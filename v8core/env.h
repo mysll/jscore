@@ -31,6 +31,10 @@ public:
 	inline void SetProtoMethod(v8::Local<v8::FunctionTemplate> that,
 		const char* name,
 		v8::FunctionCallback callback);
+
+	inline void SetInstanceMethod(v8::Local<v8::FunctionTemplate> that,
+		const char* name,
+		v8::FunctionCallback callback);
 private:
 	v8::Isolate* const isolate_;
 };
