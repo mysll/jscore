@@ -51,7 +51,7 @@ void Console::newConsole(const FunctionCallbackInfo<Value>& args)
 	Isolate*_isolate = args.GetIsolate();
 	Console* _console = new Console(_isolate);
 	Handle<Object> object = args.This();
-	object->SetInternalField(0, External::New(_isolate, _console));
+	_console->wrap(object);
 }
 
 void Console::info(const FunctionCallbackInfo<Value>& args)

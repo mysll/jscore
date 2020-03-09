@@ -30,6 +30,7 @@ protected:
 		assert(handle->InternalFieldCount() > 0);
 		handle->SetAlignedPointerInInternalField(0, this);
 		persistent().Reset(v8::Isolate::GetCurrent(), handle);
+		MakeWeak();
 	}
 
 	inline void MakeWeak(void) {
@@ -39,8 +40,6 @@ protected:
 
 private:
 	static void WeakCallback(const v8::WeakCallbackInfo<ObjectWrap>& data) {
-		v8::Isolate* isolate = data.GetIsolate();
-		v8::HandleScope scope(isolate);
 		ObjectWrap* wrap = data.GetParameter();
 		wrap->handle_.Reset();
 		delete wrap;

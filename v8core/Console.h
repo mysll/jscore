@@ -1,8 +1,9 @@
 #pragma once
 #include <v8.h>
+#include "ObjectWrap.h"
 
 using namespace v8;
-class Console
+class Console : ObjectWrap
 {
 public:
 	Console(Isolate* isolate);
