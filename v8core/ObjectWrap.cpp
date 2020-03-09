@@ -1,7 +1,5 @@
 #include "ObjectWrap.h"
 
-
-
 ObjectWrap::ObjectWrap()
 {
 }
