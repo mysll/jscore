@@ -14,6 +14,8 @@ public:
 
 	void initEnv();
 
+	void run();
+
 private:
 	std::unique_ptr<v8::ArrayBuffer::Allocator> array_buffer_allocator_;
 	v8::Platform* platform_;

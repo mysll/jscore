@@ -12,7 +12,6 @@ JsContext::JsContext(Isolate* isolate, Local<ObjectTemplate> globals)
 	if (globals.IsEmpty()) {
 		globals = ObjectTemplate::New(isolate_);
 	}
-	Console::install(isolate, globals);
 	context_.Reset(isolate, Context::New(isolate_, nullptr, globals));
 }
 

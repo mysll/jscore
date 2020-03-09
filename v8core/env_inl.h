@@ -67,3 +67,4 @@ inline void Environment::SetInstanceMethod(v8::Local<v8::FunctionTemplate> that,
 	that->InstanceTemplate()->Set(name_string, t);
 	t->SetClassName(name_string);
 }
+

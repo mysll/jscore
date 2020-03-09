@@ -1,38 +1,25 @@
-#include "VM.h"
+#include <libplatform\libplatform.h>
 #include "JsContext.h"
 #include "Console.h"
+#include "api.h"
+#include "Instance.h"
+
 
 using namespace v8;
-int main(int argc, char* argv[]) {
 
-	VM vm(argv[0]);
-	do {
-		HandleScope _scope(vm.getIsolate());
-		Local<ObjectTemplate> global = ObjectTemplate::New(vm.getIsolate());
-		auto _context = vm.newContent(global);
-		Persistent<Value> _result  = _context->runWithFile("main.js");
-		if (_result.IsEmpty()) {
-			printf("is empty\n");
-			break;
-		}
-		String::Utf8Value utf8(vm.getIsolate(), _result.Get(vm.getIsolate()));
-		printf("%s\n", *utf8);
-		_result.Reset();
-		delete _context;
-	} while (false);
-	do {
-		HandleScope _scope(vm.getIsolate());
-		auto _context = vm.newContent(Local<ObjectTemplate>());
-		Persistent<Value> _result = _context->runScript("'hello'+',world'");
-		if (_result.IsEmpty()) {
-			printf("is empty\n");
-			break;
-		}
-		String::Utf8Value utf8(vm.getIsolate(), _result.Get(vm.getIsolate()));
-		printf("%s\n", *utf8);
-		_result.Reset();
-		delete _context;
-	} while (false);
+int start(Platform* platform) {
+	Isolate::CreateParams params;
+	std::unique_ptr<Instance> instance = std::make_unique<Instance>(&params, platform);
+	instance->initEnv();
+	instance->run();
+	return 0;
+}
+
+int main(int argc, char* argv[]) {
+	std::unique_ptr<Platform> platform = platform::NewDefaultPlatform();
+	globalInitialize(argv[0], platform.get());
+	start(platform.get());
 	system("pause");
+	globalDispose();
 	return 0;
 }

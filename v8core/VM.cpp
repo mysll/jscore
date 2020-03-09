@@ -31,17 +31,11 @@ bool VM::init(char * path)
 		return false;
 	}
 
-	// create isolate
-	create_params_.array_buffer_allocator = ArrayBuffer::Allocator::NewDefaultAllocator();
-	isolate_ = Isolate::New(create_params_);
-	isolate_->Enter();
 	return true;
 }
 
 void VM::release()
 {
-	isolate_->Exit();
-	isolate_->Dispose();
 	V8::Dispose();
 	V8::ShutdownPlatform();
 	delete create_params_.array_buffer_allocator;

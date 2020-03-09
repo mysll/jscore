@@ -1,9 +1,9 @@
 #include "Console.h"
+#include "env_inl.h"
+#include "Utils_inl.h"
 
+Console::Console()
 
-
-Console::Console(Isolate* isolate) :
-	isolate_(isolate)
 {
 }
 
@@ -20,36 +20,29 @@ Console::~Console()
 //	printf("%s\n", *value);
 //}
 
-bool Console::install(Isolate* isolate, Handle<ObjectTemplate> global)
+bool Console::initialize(Environment* env)
 {
-	/*Handle<FunctionTemplate> fun = FunctionTemplate::New(isolate, LogCallback);
-	global->Set(String::NewFromUtf8(isolate, "print", NewStringType::kNormal).ToLocalChecked(),
-		fun);*/
+	Local<Context> context = env->isolate()->GetCurrentContext();
+	if (context.IsEmpty()) {
+		return false;
+	}
 
-	Handle<FunctionTemplate> _console_template = FunctionTemplate::New(isolate, Console::newConsole);
-	Handle<ObjectTemplate> _console_proto = _console_template->PrototypeTemplate();
-	_console_proto->Set(String::NewFromUtf8(isolate, "info", NewStringType::kNormal).ToLocalChecked(),
-		FunctionTemplate::New(isolate, info));
-	_console_proto->Set(String::NewFromUtf8(isolate, "log", NewStringType::kNormal).ToLocalChecked(),
-		FunctionTemplate::New(isolate, log));
+	Local<FunctionTemplate> ctor = env->NewFunctionTemplate(newConsole);
+	ctor->SetClassName(FIXED_ONE_BYTE_STRING(env->isolate(), "Console"));
 
-	Handle<ObjectTemplate> _console_inst = _console_template->InstanceTemplate();
-	_console_inst->SetInternalFieldCount(1);
-	
+	env->SetProtoMethod(ctor, "info", info);
+	env->SetProtoMethod(ctor, "log", log);
 
-	/*Handle<ObjectTemplate> global_console = ObjectTemplate::New(isolate);
-	global_console->SetAccessor(String::NewFromUtf8(isolate, "console", NewStringType::kNormal))*/
+	ctor->InstanceTemplate()->SetInternalFieldCount(1);
 
-	global->Set(String::NewFromUtf8(isolate, "Console", NewStringType::kNormal).ToLocalChecked(),
-		_console_template);
-
+	env->set_console_template(ctor);
 	return true;
 }
 
 void Console::newConsole(const FunctionCallbackInfo<Value>& args)
 {
 	Isolate*_isolate = args.GetIsolate();
-	Console* _console = new Console(_isolate);
+	Console* _console = new Console();
 	Handle<Object> object = args.This();
 	_console->wrap(object);
 }

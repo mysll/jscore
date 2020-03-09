@@ -27,3 +27,12 @@ void Instance::initEnv()
 
 	env_.reset(new Environment(isolate_, context));
 }
+
+void Instance::run()
+{
+	HandleScope handle_scope(isolate_);
+	Local<Context> context = NewContext(isolate_, env_->getTemplate());
+	Context::Scope context_scope(context);
+	env_->AssignToContext(context);
+	env_->ExecuteFile("main.js");
+}
