@@ -2,9 +2,10 @@
 
 using namespace v8;
 
-Environment::Environment(Isolate* isolate, Context context):
+Environment::Environment(Isolate* isolate, v8::Local<v8::Context> context):
 	isolate_(isolate)
 {
+
 }
 
 Environment::~Environment()

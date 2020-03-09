@@ -8,7 +8,7 @@ class IsolateData {
 class Environment
 {
 public:
-	Environment(v8::Isolate* isolate, v8::Context context);
+	Environment(v8::Isolate* isolate, v8::Local<v8::Context> context);
 	~Environment();
 
 	inline v8::Isolate* isolate() const;

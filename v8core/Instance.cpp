@@ -1,5 +1,6 @@
 #include "Instance.h"
-
+#include "api.h"
+#include "env.h"
 using namespace v8;
 
 Instance::Instance(
@@ -16,4 +17,13 @@ Instance::Instance(
 Instance::~Instance()
 {
 	isolate_->Dispose();
+}
+
+void Instance::initEnv()
+{
+	HandleScope handle_scope(isolate_);
+	Local<Context> context = NewContext(isolate_);
+	Context::Scope context_scope(context);
+
+	env_.reset(new Environment(isolate_, context));
 }
