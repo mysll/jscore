@@ -31,3 +31,6 @@
 
 *.db
 *.opendb
+
+/x64
+/v8core/x64
