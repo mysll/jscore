@@ -40,6 +40,15 @@
     <ClCompile Include="env.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Instance.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="api.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ScriptFile.h">
@@ -64,6 +73,18 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="env_inl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Instance.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="api.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ContextData.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils_inl.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

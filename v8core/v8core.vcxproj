@@ -116,22 +116,29 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="api.cpp" />
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="env.cpp" />
+    <ClCompile Include="Instance.cpp" />
     <ClCompile Include="JsContext.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ObjectWrap.cpp" />
     <ClCompile Include="ScriptFile.cpp" />
+    <ClCompile Include="Utils.cpp" />
     <ClCompile Include="VM.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="api.h" />
     <ClInclude Include="Console.h" />
+    <ClInclude Include="ContextData.h" />
     <ClInclude Include="env.h" />
     <ClInclude Include="env_inl.h" />
+    <ClInclude Include="Instance.h" />
     <ClInclude Include="JsContext.h" />
     <ClInclude Include="ObjectWrap.h" />
     <ClInclude Include="ScriptFile.h" />
     <ClInclude Include="Utils.h" />
+    <ClInclude Include="Utils_inl.h" />
     <ClInclude Include="VM.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
