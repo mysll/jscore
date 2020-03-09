@@ -34,6 +34,9 @@
     <ClCompile Include="Console.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="ObjectWrap.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ScriptFile.h">
@@ -46,6 +49,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Console.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectWrap.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

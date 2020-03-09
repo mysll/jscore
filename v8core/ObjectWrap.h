@@ -15,6 +15,15 @@ public:
 
 	inline v8::Persistent<v8::Object>& persistent() { return handle_; }
 
+	template <class T>
+	static inline T* Unwrap(v8::Handle<v8::Object> handle) {
+		assert(!handle.IsEmpty());
+		assert(handle->InternalFieldCount() > 0);
+		void* ptr = handle->GetAlignedPointerFromInternalField(0);
+		ObjectWrap* wrap = static_cast<ObjectWrap*>(ptr);
+		return static_cast<T*>(wrap);
+	}
+
 protected:
 	inline void wrap(v8::Handle<v8::Object> handle) {
 		assert(persistent().IsEmpty());
@@ -31,7 +40,10 @@ protected:
 private:
 	static void WeakCallback(const v8::WeakCallbackInfo<ObjectWrap>& data) {
 		v8::Isolate* isolate = data.GetIsolate();
-
+		v8::HandleScope scope(isolate);
+		ObjectWrap* wrap = data.GetParameter();
+		wrap->handle_.Reset();
+		delete wrap;
 	}
 	v8::Persistent<v8::Object> handle_;
 };
