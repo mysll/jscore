@@ -37,6 +37,9 @@
     <ClCompile Include="ObjectWrap.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="env.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ScriptFile.h">
@@ -52,6 +55,15 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="ObjectWrap.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="env.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="env_inl.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

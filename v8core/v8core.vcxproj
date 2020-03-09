@@ -117,6 +117,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Console.cpp" />
+    <ClCompile Include="env.cpp" />
     <ClCompile Include="JsContext.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ObjectWrap.cpp" />
@@ -125,9 +126,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Console.h" />
+    <ClInclude Include="env.h" />
+    <ClInclude Include="env_inl.h" />
     <ClInclude Include="JsContext.h" />
     <ClInclude Include="ObjectWrap.h" />
     <ClInclude Include="ScriptFile.h" />
+    <ClInclude Include="Utils.h" />
     <ClInclude Include="VM.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
