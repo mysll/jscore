@@ -21,23 +21,6 @@ Console::~Console()
 //	printf("%s\n", *value);
 //}
 
-bool Console::initialize(Environment* env)
-{
-	Local<Context> context = env->isolate()->GetCurrentContext();
-	if (context.IsEmpty()) {
-		return false;
-	}
-
-	Local<FunctionTemplate> ctor = env->NewFunctionTemplate(newConsole);
-	ctor->SetClassName(FIXED_ONE_BYTE_STRING(env->isolate(), "Console"));
-	env->SetProtoMethod(ctor, "info", info);
-	env->SetProtoMethod(ctor, "log", log);
-	ctor->InstanceTemplate()->SetInternalFieldCount(1);
-
-	env->set_console_template(ctor);
-	return true;
-}
-
 void Console::newConsole(const FunctionCallbackInfo<Value>& args)
 {
 	Isolate*_isolate = args.GetIsolate();
@@ -66,8 +49,19 @@ void Console::log(const FunctionCallbackInfo<Value>& args)
 }
 
 
-void Initialize(v8::Local<v8::Context>) {
+void Initialize(v8::Local<v8::Context> context) {
+	Environment* env = Environment::GetCurrent(context);
+	if (env == nullptr) {
+		return;
+	}
 
+	Local<FunctionTemplate> ctor = env->NewFunctionTemplate(Console::newConsole);
+	ctor->SetClassName(FIXED_ONE_BYTE_STRING(env->isolate(), "Console"));
+	env->SetProtoMethod(ctor, "info", Console::info);
+	env->SetProtoMethod(ctor, "log", Console::log);
+	ctor->InstanceTemplate()->SetInternalFieldCount(1);
+
+	env->set_console_template(ctor);
 }
 
 REGISTER_INTERNAL_MODULE(Console, Initialize);

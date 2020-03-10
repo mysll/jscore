@@ -12,7 +12,7 @@ public:
 	Instance(v8::Isolate::CreateParams* params, v8::Platform* platform);
 	~Instance();
 
-	void initEnv();
+	void Initialize();
 
 	void run();
 

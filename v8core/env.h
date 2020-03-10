@@ -14,6 +14,9 @@ public:
 
 	inline v8::Isolate* isolate() const;
 
+	static inline Environment* GetCurrent(v8::Isolate* isolate);
+	static inline Environment* GetCurrent(v8::Local<v8::Context> context);
+
 	inline void AssignToContext(v8::Local<v8::Context> context);
 
 	inline v8::Local<v8::FunctionTemplate>

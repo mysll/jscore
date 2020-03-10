@@ -11,7 +11,6 @@ public:
 	~Console();
 
 public:
-	bool  initialize(Environment* env);
 	static void  newConsole(const FunctionCallbackInfo<Value>& args);
 	static void info(const FunctionCallbackInfo<Value>& args);
 	static void log(const FunctionCallbackInfo<Value>& args);

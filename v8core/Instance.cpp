@@ -19,7 +19,7 @@ Instance::~Instance()
 	isolate_->Dispose();
 }
 
-void Instance::initEnv()
+void Instance::Initialize()
 {
 	HandleScope handle_scope(isolate_);
 	Local<Context> context = NewContext(isolate_);

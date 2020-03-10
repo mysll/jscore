@@ -2,6 +2,7 @@
 #include "api.h"
 #include "v8.h"
 #include "libplatform/libplatform.h"
+#include "Instance.h"
 
 using namespace v8;
 
@@ -18,6 +19,8 @@ int init(int argc, char * argv[])
 
 int start()
 {
+	Isolate::CreateParams params;
+	Instance instance(&params, v8_platform.platform());
 	return 0;
 }
 

@@ -7,6 +7,23 @@ inline v8::Isolate * Environment::isolate() const
 	return isolate_;
 }
 
+inline Environment * Environment::GetCurrent(v8::Isolate * isolate)
+{
+	if (!isolate->InContext()) return nullptr;
+	v8::HandleScope handle_scope(isolate);
+	return GetCurrent(isolate->GetCurrentContext());
+}
+
+inline Environment * Environment::GetCurrent(v8::Local<v8::Context> context)
+{
+	if (context.IsEmpty()) {
+		return nullptr;
+	}
+	return static_cast<Environment*>(
+		context->GetAlignedPointerFromEmbedderData(
+			ContextEmbedderIndex::kEnvironment));
+}
+
 inline void Environment::AssignToContext(v8::Local<v8::Context> context)
 {
 	context->SetAlignedPointerInEmbedderData(
