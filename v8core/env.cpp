@@ -1,13 +1,19 @@
 #include "env_inl.h"
 #include "ScriptFile.h"
 #include "Utils.h"
+#include "Console.h"
 using namespace v8;
 
 Environment::Environment(Isolate* isolate, v8::Local<v8::Context> context) :
 	isolate_(isolate)
 {
 	// NamedPropertyHandlerConfiguration 
+	
+	HandleScope scope(isolate);
 	AssignToContext(context);
+	Context::Scope context_scope(context);
+	Console* console = new Console();
+	console->initialize(this);
 }
 
 Environment::~Environment()
@@ -39,8 +45,9 @@ Local<ObjectTemplate> Environment::getTemplate()
 {
 	EscapableHandleScope scope(isolate());
 	Local<ObjectTemplate> globals = ObjectTemplate::New(isolate());
-	globals->Set(isolate(), "Console", PersistentToLocal::Weak(isolate(), console_template_));
-	return globals;
+	Local<FunctionTemplate> console_tpl = PersistentToLocal::Weak(isolate(), console_template_);
+	globals->Set(isolate(), "Console", console_tpl);
+	return scope.Escape(globals);
 }
 
 bool Environment::runScript(ScriptFile* file)
