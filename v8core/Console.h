@@ -4,15 +4,17 @@
 #include "env.h"
 
 using namespace v8;
-class Console : ObjectWrap
-{
-public:
-	Console();
-	~Console();
+namespace console {
+	class Console : ObjectWrap
+	{
+	public:
+		Console();
+		~Console();
 
-public:
-	static void  newConsole(const FunctionCallbackInfo<Value>& args);
-	static void info(const FunctionCallbackInfo<Value>& args);
-	static void log(const FunctionCallbackInfo<Value>& args);
-};
+	public:
+		static void  newConsole(const FunctionCallbackInfo<Value>& args);
+		static void info(const FunctionCallbackInfo<Value>& args);
+		static void log(const FunctionCallbackInfo<Value>& args);
+	};
+}
 

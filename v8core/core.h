@@ -28,6 +28,7 @@ struct V8Platform {
 
 extern struct V8Platform v8_platform;
 
+extern void RegisterBuiltinModules();
 extern int init(int argc, char * argv[]);
 extern int start();
 extern int stop();
@@ -38,9 +39,9 @@ extern void module_register(core_module* m);
 #define STRINGIFY_HELPER(n) #n
 #endif
 
-#define REGISTER_INTERNAL_MODULE(modname, regfunc)	\
+#define REGISTER_INTERNAL_MODULE_CPP(modname, regfunc)	\
 static core_module _module = {						\
 	STRINGIFY(modname),								\
 	regfunc											\
 };													\
-void _reg_##modname() {module_register(&_module);}
+void _register_##modname() {module_register(&_module);}

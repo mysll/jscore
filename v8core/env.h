@@ -13,6 +13,7 @@ public:
 	~Environment();
 
 	inline v8::Isolate* isolate() const;
+	inline v8::Local<v8::Context> context() const;
 
 	static inline Environment* GetCurrent(v8::Isolate* isolate);
 	static inline Environment* GetCurrent(v8::Local<v8::Context> context);
@@ -49,12 +50,14 @@ public:
 
 	v8::Local<v8::ObjectTemplate> getTemplate();
 
+
 private:
 	bool runScript(ScriptFile* source);
 
 private:
 
 	v8::Isolate* const isolate_;
+	v8::Global<v8::Context> context_;
 	v8::Global<v8::FunctionTemplate> console_template_;
 };
 

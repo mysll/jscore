@@ -1,10 +1,16 @@
 #pragma once
 #include "env.h"
 #include "ContextData.h"
+#include "Utils_inl.h"
 
 inline v8::Isolate * Environment::isolate() const
 {
 	return isolate_;
+}
+
+inline v8::Local<v8::Context> Environment::context() const
+{
+	return PersistentToLocal::Strong(context_);
 }
 
 inline Environment * Environment::GetCurrent(v8::Isolate * isolate)

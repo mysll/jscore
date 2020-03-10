@@ -5,19 +5,18 @@
 using namespace v8;
 
 Environment::Environment(Isolate* isolate, v8::Local<v8::Context> context) :
-	isolate_(isolate)
+	isolate_(isolate),
+	context_(context->GetIsolate(), context)
 {
 	// NamedPropertyHandlerConfiguration 
-	
 	HandleScope scope(isolate);
-	AssignToContext(context);
 	Context::Scope context_scope(context);
-	Console* console = new Console();
-	console->initialize(this);
+	AssignToContext(context);
 }
 
 Environment::~Environment()
 {
+	context_.Reset();
 }
 
 
