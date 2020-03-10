@@ -30,13 +30,12 @@ protected:
 		assert(persistent().IsEmpty());
 		assert(handle->InternalFieldCount() > 0);
 		handle->SetAlignedPointerInInternalField(0, this);
-		persistent().Reset(env_->isolate(), handle);
+		persistent().Reset(v8::Isolate::GetCurrent(), handle);
 		MakeWeak();
 	}
 
 	inline void MakeWeak(void) {
 		persistent().SetWeak(this, WeakCallback, v8::WeakCallbackType::kParameter);
-		persistent().MarkIndependent();
 	}
 
 private:

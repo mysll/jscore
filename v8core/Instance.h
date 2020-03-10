@@ -5,6 +5,7 @@
 #include "api.h"
 
 class Environment;
+struct core_module;
 
 class Instance
 {
@@ -12,7 +13,7 @@ public:
 	Instance(v8::Isolate::CreateParams* params, v8::Platform* platform);
 	~Instance();
 
-	void Initialize();
+	void Initialize(core_module* modlist_internal);
 	void run();
 
 	inline Environment* env() const {

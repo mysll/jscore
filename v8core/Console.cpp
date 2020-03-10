@@ -4,7 +4,7 @@
 #include "core.h"
 
 namespace console {
-	Console::Console(Environment* env):ObjectWrap(env)
+	Console::Console(Environment* env) :ObjectWrap(env)
 	{
 	}
 
@@ -21,7 +21,7 @@ namespace console {
 	//	printf("%s\n", *value);
 	//}
 
-	void Console::newConsole(const FunctionCallbackInfo<Value>& args)
+	void Console::ctor(const FunctionCallbackInfo<Value>& args)
 	{
 		Isolate*_isolate = args.GetIsolate();
 		Environment* env = Environment::GetCurrent(_isolate);
@@ -60,7 +60,7 @@ namespace console {
 		HandleScope scope(env->isolate());
 		Context::Scope context_scope(context);
 
-		Local<FunctionTemplate> ctor = env->NewFunctionTemplate(Console::newConsole);
+		Local<FunctionTemplate> ctor = env->NewFunctionTemplate(Console::ctor);
 		ctor->SetClassName(FIXED_ONE_BYTE_STRING(env->isolate(), "Console"));
 		env->SetProtoMethod(ctor, "info", Console::info);
 		env->SetProtoMethod(ctor, "log", Console::log);

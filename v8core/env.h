@@ -2,6 +2,8 @@
 #include "v8.h"
 
 class ScriptFile;
+struct core_module;
+
 class IsolateData {
 
 };
@@ -41,7 +43,8 @@ public:
 		const char* name,
 		v8::FunctionCallback callback);
 
-	
+	void registerInternalModule(core_module* internals);
+
 	bool ExecuteScript(const char * source);
 
 	bool ExecuteFile(const char * filename);

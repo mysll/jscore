@@ -11,14 +11,12 @@ struct V8Platform v8_platform;
 static core_module* modlist_internal;
 Isolate::CreateParams params;
 
-#define NODE_BUILTIN_STANDARD_MODULES(V)                                       \
+#define NODE_BUILTIN_STANDARD_MODULES(V)		\
 V(Console)
 
 #define V(modname) void _register_##modname();
 NODE_BUILTIN_STANDARD_MODULES(V)
 #undef V
-
-
 
 int init(int argc, char * argv[])
 {
@@ -31,14 +29,11 @@ int init(int argc, char * argv[])
 int start()
 {
 	RegisterBuiltinModules();
-	Instance instance(&params, v8_platform.platform());
-	instance.Initialize();
-	core_module * m = modlist_internal;
-	while (m) {
-		m->reg(instance.env()->context());
-		m = m->next;
+	{
+		Instance instance(&params, v8_platform.platform());
+		instance.Initialize(modlist_internal);
+		instance.run();
 	}
-	instance.run();
 	return 0;
 }
 

@@ -2,6 +2,8 @@
 #include "ScriptFile.h"
 #include "Utils.h"
 #include "Console.h"
+#include "core.h"
+
 using namespace v8;
 
 Environment::Environment(Isolate* isolate, v8::Local<v8::Context> context) :
@@ -16,9 +18,16 @@ Environment::Environment(Isolate* isolate, v8::Local<v8::Context> context) :
 
 Environment::~Environment()
 {
-
 }
 
+void Environment::registerInternalModule(core_module * internals)
+{
+	core_module * m = internals;
+	while (m) {
+		m->reg(context());
+		m = m->next;
+	}
+}
 
 bool Environment::ExecuteScript(const char * source)
 {

@@ -12,7 +12,7 @@ namespace console {
 		~Console();
 
 	public:
-		static void  newConsole(const FunctionCallbackInfo<Value>& args);
+		static void ctor(const FunctionCallbackInfo<Value>& args);
 		static void info(const FunctionCallbackInfo<Value>& args);
 		static void log(const FunctionCallbackInfo<Value>& args);
 	};

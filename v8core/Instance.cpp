@@ -1,6 +1,7 @@
 #include "Instance.h"
 #include "api.h"
 #include "env.h"
+#include "core.h"
 using namespace v8;
 
 Instance::Instance(
@@ -16,21 +17,21 @@ Instance::Instance(
 
 Instance::~Instance()
 {
-	isolate_->TerminateExecution();
 	isolate_->Dispose();
 }
 
-void Instance::Initialize()
+void Instance::Initialize(core_module* modlist_internal)
 {
 	HandleScope handle_scope(isolate_);
 	Local<Context> context = NewContext(isolate_);
 	Context::Scope context_scope(context);
-
-	env_.reset(new Environment(isolate_, context));
+	env_ = std::make_unique<Environment>(isolate_, context);
+	env()->registerInternalModule(modlist_internal);
 }
 
 void Instance::run()
 {
+	Isolate::Scope isolate_scope(isolate_);
 	HandleScope handle_scope(isolate_);
 	Local<Context> context = NewContext(isolate_, env_->getTemplate());
 	Context::Scope context_scope(context);
