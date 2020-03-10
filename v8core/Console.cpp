@@ -1,6 +1,7 @@
 #include "Console.h"
 #include "env_inl.h"
 #include "Utils_inl.h"
+#include "core.h"
 
 Console::Console()
 
@@ -63,3 +64,10 @@ void Console::log(const FunctionCallbackInfo<Value>& args)
 	String::Utf8Value value(_isolate, arg);
 	printf("[log]%s\n", *value);
 }
+
+
+void Initialize(v8::Local<v8::Context>) {
+
+}
+
+REGISTER_INTERNAL_MODULE(Console, Initialize);
