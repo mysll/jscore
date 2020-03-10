@@ -16,6 +16,7 @@ Instance::Instance(
 
 Instance::~Instance()
 {
+	isolate_->TerminateExecution();
 	isolate_->Dispose();
 }
 

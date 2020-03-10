@@ -9,6 +9,7 @@ using namespace v8;
 
 struct V8Platform v8_platform;
 static core_module* modlist_internal;
+Isolate::CreateParams params;
 
 #define NODE_BUILTIN_STANDARD_MODULES(V)                                       \
 V(Console)
@@ -30,13 +31,14 @@ int init(int argc, char * argv[])
 int start()
 {
 	RegisterBuiltinModules();
-	Isolate::CreateParams params;
 	Instance instance(&params, v8_platform.platform());
 	instance.Initialize();
 	core_module * m = modlist_internal;
 	while (m) {
 		m->reg(instance.env()->context());
+		m = m->next;
 	}
+	instance.run();
 	return 0;
 }
 

@@ -4,8 +4,7 @@
 #include "core.h"
 
 namespace console {
-	Console::Console()
-
+	Console::Console(Environment* env):ObjectWrap(env)
 	{
 	}
 
@@ -25,8 +24,10 @@ namespace console {
 	void Console::newConsole(const FunctionCallbackInfo<Value>& args)
 	{
 		Isolate*_isolate = args.GetIsolate();
+		Environment* env = Environment::GetCurrent(_isolate);
 		HandleScope scope(_isolate);
-		Console* _console = new Console();
+		Context::Scope context_scope(_isolate->GetCurrentContext());
+		Console* _console = new Console(env);
 		Handle<Object> object = args.This();
 		_console->wrap(object);
 	}

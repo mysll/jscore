@@ -1,12 +1,13 @@
 #pragma once
 #include <v8.h>
 #include <assert.h>
+#include "env.h"
 
 class ObjectWrap
 {
 public:
-	ObjectWrap();
-	~ObjectWrap();
+	ObjectWrap(Environment*env);
+	virtual ~ObjectWrap();
 
 	inline v8::Local<v8::Object> handle() { return handle(v8::Isolate::GetCurrent()); }
 	inline v8::Local<v8::Object> handle(v8::Isolate* isolate) {
@@ -29,7 +30,7 @@ protected:
 		assert(persistent().IsEmpty());
 		assert(handle->InternalFieldCount() > 0);
 		handle->SetAlignedPointerInInternalField(0, this);
-		persistent().Reset(v8::Isolate::GetCurrent(), handle);
+		persistent().Reset(env_->isolate(), handle);
 		MakeWeak();
 	}
 
@@ -45,5 +46,6 @@ private:
 		delete wrap;
 	}
 	v8::Persistent<v8::Object> handle_;
+	Environment* env_;
 };
 

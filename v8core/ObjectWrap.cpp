@@ -1,6 +1,6 @@
 #include "ObjectWrap.h"
 
-ObjectWrap::ObjectWrap()
+ObjectWrap::ObjectWrap(Environment*env):env_(env)
 {
 }
 

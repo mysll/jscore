@@ -8,7 +8,7 @@ namespace console {
 	class Console : ObjectWrap
 	{
 	public:
-		Console();
+		Console(Environment*env);
 		~Console();
 
 	public:

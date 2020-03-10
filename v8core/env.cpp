@@ -16,7 +16,7 @@ Environment::Environment(Isolate* isolate, v8::Local<v8::Context> context) :
 
 Environment::~Environment()
 {
-	context_.Reset();
+
 }
 
 
@@ -44,7 +44,7 @@ Local<ObjectTemplate> Environment::getTemplate()
 {
 	EscapableHandleScope scope(isolate());
 	Local<ObjectTemplate> globals = ObjectTemplate::New(isolate());
-	Local<FunctionTemplate> console_tpl = PersistentToLocal::Weak(isolate(), console_template_);
+	Local<FunctionTemplate> console_tpl = PersistentToLocal::Strong(console_template_);
 	globals->Set(isolate(), "Console", console_tpl);
 	return scope.Escape(globals);
 }
@@ -52,12 +52,12 @@ Local<ObjectTemplate> Environment::getTemplate()
 bool Environment::runScript(ScriptFile* file)
 {
 	HandleScope scope(isolate());
-	TryCatch try_catch(isolate_);
+	TryCatch try_catch(isolate());
 	Local<Context> context = isolate()->GetCurrentContext();
 	Context::Scope context_scope(context);
 	do {
 		Handle<String> _source;
-		if (!String::NewFromUtf8(isolate_, file->getContent(), NewStringType::kNormal).ToLocal(&_source)) {
+		if (!String::NewFromUtf8(isolate(), file->getContent(), NewStringType::kNormal).ToLocal(&_source)) {
 			break;
 		}
 
