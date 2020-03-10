@@ -17,7 +17,7 @@ bool InitializeContext(Local<Context> context) {
 	return true;
 }
 
-bool globalInitialize(const char* path, v8::Platform* platform)
+bool GlobalInitialize(const char* path, v8::Platform* platform)
 {
 	// init v8
 	if (!V8::InitializeICUDefaultLocation(path)) {
@@ -31,7 +31,7 @@ bool globalInitialize(const char* path, v8::Platform* platform)
 	return true;
 }
 
-void globalDispose()
+void GlobalDispose()
 {
 	V8::Dispose();
 	V8::ShutdownPlatform();

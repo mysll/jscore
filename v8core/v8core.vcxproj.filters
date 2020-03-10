@@ -28,9 +28,6 @@
     <ClCompile Include="ScriptFile.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="VM.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="JsContext.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -52,12 +49,12 @@
     <ClCompile Include="Utils.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="core.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ScriptFile.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="VM.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="JsContext.h">
@@ -88,6 +85,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Utils_inl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="core.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

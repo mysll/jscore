@@ -29,10 +29,8 @@ bool Console::initialize(Environment* env)
 
 	Local<FunctionTemplate> ctor = env->NewFunctionTemplate(newConsole);
 	ctor->SetClassName(FIXED_ONE_BYTE_STRING(env->isolate(), "Console"));
-
 	env->SetProtoMethod(ctor, "info", info);
 	env->SetProtoMethod(ctor, "log", log);
-
 	ctor->InstanceTemplate()->SetInternalFieldCount(1);
 
 	env->set_console_template(ctor);
@@ -42,6 +40,7 @@ bool Console::initialize(Environment* env)
 void Console::newConsole(const FunctionCallbackInfo<Value>& args)
 {
 	Isolate*_isolate = args.GetIsolate();
+	HandleScope scope(_isolate);
 	Console* _console = new Console();
 	Handle<Object> object = args.This();
 	_console->wrap(object);
