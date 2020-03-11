@@ -15,7 +15,7 @@ public:
 
 	void Initialize(core_module* modlist_internal);
 	void run();
-
+	void Dispose();
 	inline Environment* env() const {
 		return env_.get();
 	};

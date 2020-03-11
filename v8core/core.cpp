@@ -33,6 +33,7 @@ int start()
 		Instance instance(&params, v8_platform.platform());
 		instance.Initialize(modlist_internal);
 		instance.run();
+		instance.Dispose();
 	}
 	return 0;
 }

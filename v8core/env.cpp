@@ -58,6 +58,10 @@ Local<ObjectTemplate> Environment::getTemplate()
 	return scope.Escape(globals);
 }
 
+void Environment::Dispose()
+{
+}
+
 bool Environment::runScript(ScriptFile* file)
 {
 	HandleScope scope(isolate());

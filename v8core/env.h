@@ -53,6 +53,7 @@ public:
 
 	v8::Local<v8::ObjectTemplate> getTemplate();
 
+	void Dispose();
 
 private:
 	bool runScript(ScriptFile* source);

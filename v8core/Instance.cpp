@@ -17,12 +17,14 @@ Instance::Instance(
 
 Instance::~Instance()
 {
+	Dispose();
+	isolate_->Exit();
 	isolate_->Dispose();
 }
 
 void Instance::Initialize(core_module* modlist_internal)
 {
-	Isolate::Scope isolate_scope(isolate_);
+	isolate_->Enter();
 	env_ = CreateMainEnvironment(modlist_internal);
 }
 
@@ -38,12 +40,19 @@ std::unique_ptr<Environment> Instance::CreateMainEnvironment(core_module* modlis
 
 void Instance::run()
 {
-	Isolate::Scope isolate_scope(isolate_);
 	HandleScope handle_scope(isolate_);
 	Local<Context> context = NewContext(isolate_, env()->getTemplate());
 	Context::Scope context_scope(context);
 	env()->AssignToContext(context);
 	env()->ExecuteFile("main.js");
+}
+
+void Instance::Dispose()
+{
+	if (env() != nullptr) {
+		env_->Dispose();
+		env_.reset();
+	}
 }
 
 

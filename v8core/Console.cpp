@@ -38,6 +38,7 @@ namespace console {
 		HandleScope _scope(_isolate);
 		Handle<Value> arg = args[0];
 		String::Utf8Value value(_isolate, arg);
+		Console* _console = ObjectWrap::Unwrap<Console>(args.This());
 		printf("[info]%s\n", *value);
 	}
 
@@ -47,6 +48,7 @@ namespace console {
 		HandleScope _scope(_isolate);
 		Handle<Value> arg = args[0];
 		String::Utf8Value value(_isolate, arg);
+		Console* _console = ObjectWrap::Unwrap<Console>(args.This());
 		printf("[log]%s\n", *value);
 	}
 
