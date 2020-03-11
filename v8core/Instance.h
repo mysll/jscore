@@ -19,6 +19,10 @@ public:
 	inline Environment* env() const {
 		return env_.get();
 	};
+
+private:
+	std::unique_ptr<Environment> CreateMainEnvironment(core_module* modlist_internal);
+
 private:
 	std::unique_ptr<v8::ArrayBuffer::Allocator> array_buffer_allocator_;
 	v8::Platform* platform_;

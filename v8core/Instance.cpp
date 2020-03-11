@@ -22,19 +22,28 @@ Instance::~Instance()
 
 void Instance::Initialize(core_module* modlist_internal)
 {
+	Isolate::Scope isolate_scope(isolate_);
+	env_ = CreateMainEnvironment(modlist_internal);
+}
+
+std::unique_ptr<Environment> Instance::CreateMainEnvironment(core_module* modlist_internal)
+{
 	HandleScope handle_scope(isolate_);
 	Local<Context> context = NewContext(isolate_);
 	Context::Scope context_scope(context);
-	env_ = std::make_unique<Environment>(isolate_, context);
-	env()->registerInternalModule(modlist_internal);
+	std::unique_ptr<Environment> env = std::make_unique<Environment>(isolate_, context);
+	env->registerInternalModule(modlist_internal);
+	return env;
 }
 
 void Instance::run()
 {
 	Isolate::Scope isolate_scope(isolate_);
 	HandleScope handle_scope(isolate_);
-	Local<Context> context = NewContext(isolate_, env_->getTemplate());
+	Local<Context> context = NewContext(isolate_, env()->getTemplate());
 	Context::Scope context_scope(context);
-	env_->AssignToContext(context);
-	env_->ExecuteFile("main.js");
+	env()->AssignToContext(context);
+	env()->ExecuteFile("main.js");
 }
+
+
