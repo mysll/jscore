@@ -4,11 +4,10 @@
 #include "core.h"
 
 namespace console {
-	Console::Console(Environment* env) :ObjectWrap(env)
+	Console::Console(Environment* env, Handle<Object> handle) :ObjectWrap(env, handle)
 	{
 	}
-
-
+	
 	Console::~Console()
 	{
 	}
@@ -27,9 +26,8 @@ namespace console {
 		Environment* env = Environment::GetCurrent(_isolate);
 		HandleScope scope(_isolate);
 		Context::Scope context_scope(_isolate->GetCurrentContext());
-		Console* _console = new Console(env);
 		Handle<Object> object = args.This();
-		_console->wrap(object);
+		Console* _console = new Console(env, object);
 	}
 
 	void Console::info(const FunctionCallbackInfo<Value>& args)
