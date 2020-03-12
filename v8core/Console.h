@@ -5,11 +5,13 @@
 
 using namespace v8;
 namespace console {
-	class Console : ObjectWrap
+	class Console : BaseObject
 	{
 	public:
 		Console(Environment*env, Handle<Object> handle);
 		~Console();
+
+		SET_SELF_SIZE(Console);
 
 	public:
 		static void ctor(const FunctionCallbackInfo<Value>& args);

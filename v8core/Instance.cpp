@@ -18,6 +18,7 @@ Instance::Instance(
 Instance::~Instance()
 {
 	Dispose();
+	isolate_->TerminateExecution();
 	isolate_->Exit();
 	isolate_->Dispose();
 }
@@ -40,11 +41,15 @@ std::unique_ptr<Environment> Instance::CreateMainEnvironment(core_module* modlis
 
 void Instance::run()
 {
-	HandleScope handle_scope(isolate_);
-	Local<Context> context = NewContext(isolate_, env()->getTemplate());
-	Context::Scope context_scope(context);
-	env()->AssignToContext(context);
-	env()->ExecuteFile("main.js");
+	{
+		HandleScope handle_scope(isolate_);
+		Local<Context> context = NewContext(isolate_, env()->getTemplate());
+		Context::Scope context_scope(context);
+		env()->AssignToContext(context);
+		env()->ExecuteFile("main.js");
+	}
+	// test gc
+	isolate_->AdjustAmountOfExternalAllocatedMemory(1024 * 1024*1024);
 }
 
 void Instance::Dispose()

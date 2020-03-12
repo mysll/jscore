@@ -4,7 +4,7 @@
 #include "core.h"
 
 namespace console {
-	Console::Console(Environment* env, Handle<Object> handle) :ObjectWrap(env, handle)
+	Console::Console(Environment* env, Handle<Object> handle) :BaseObject(env, handle)
 	{
 	}
 	
@@ -36,7 +36,7 @@ namespace console {
 		HandleScope _scope(_isolate);
 		Handle<Value> arg = args[0];
 		String::Utf8Value value(_isolate, arg);
-		Console* _console = ObjectWrap::Unwrap<Console>(args.This());
+		Console* _console = BaseObject::Unwrap<Console>(args.This());
 		printf("[info]%s\n", *value);
 	}
 
@@ -46,7 +46,7 @@ namespace console {
 		HandleScope _scope(_isolate);
 		Handle<Value> arg = args[0];
 		String::Utf8Value value(_isolate, arg);
-		Console* _console = ObjectWrap::Unwrap<Console>(args.This());
+		Console* _console = BaseObject::Unwrap<Console>(args.This());
 		printf("[log]%s\n", *value);
 	}
 
