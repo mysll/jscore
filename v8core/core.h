@@ -40,8 +40,8 @@ extern void module_register(core_module* m);
 #endif
 
 #define REGISTER_INTERNAL_MODULE_CPP(modname, regfunc)	\
-static core_module _module = {						\
-	STRINGIFY(modname),								\
-	regfunc											\
-};													\
+static core_module _module = {							\
+	STRINGIFY(modname),									\
+	regfunc												\
+};														\
 void _register_##modname() {module_register(&_module);}

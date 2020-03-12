@@ -1,8 +1,10 @@
+#include <iostream>
 #include "env_inl.h"
 #include "ScriptFile.h"
 #include "Utils.h"
 #include "Console.h"
 #include "core.h"
+
 
 using namespace v8;
 
@@ -91,6 +93,7 @@ bool Environment::runScript(ScriptFile* file)
 	TryCatch try_catch(isolate());
 	Local<Context> context = isolate()->GetCurrentContext();
 	Context::Scope context_scope(context);
+	ScriptOrigin origin(OneByteString(isolate(), file->fileName()));
 	do {
 		Handle<String> _source;
 		if (!String::NewFromUtf8(isolate(), file->getContent(), NewStringType::kNormal).ToLocal(&_source)) {
@@ -98,17 +101,17 @@ bool Environment::runScript(ScriptFile* file)
 		}
 
 		Handle<Script> _script;
-		if (!Script::Compile(context, _source).ToLocal(&_script)) {
+		if (!Script::Compile(context, _source, &origin).ToLocal(&_script)) {
 			break;
 		}
 
 		Handle<Value> result;
 		if (!_script->Run(context).ToLocal(&result)) {
+			std::cerr << report_exception(isolate(), context, try_catch) << std::endl;
 			break;
 		}
 
 		return true;
 	} while (false);
-
 	return false;
 }

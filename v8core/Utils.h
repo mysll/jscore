@@ -66,3 +66,13 @@ inline v8::Local<v8::String> FIXED_ONE_BYTE_STRING(
 	const std::array<char, N>& arr) {
 	return OneByteString(isolate, arr.data(), N - 1);
 }
+
+inline std::string str(v8::Isolate* isolate, v8::Local<v8::Value> value) {
+	v8::String::Utf8Value s(isolate, value);
+	if (s.length() == 0) {
+		return "";
+	}
+	return *s;
+}
+
+inline std::string report_exception(v8::Isolate* isolate, v8::Local<v8::Context> ctx, v8::TryCatch& try_catch);

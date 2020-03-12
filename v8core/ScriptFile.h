@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "v8.h"
 
 class ScriptFile
 {
@@ -11,10 +12,12 @@ public:
 
 	bool loadBySource(const char * source);
 
-	const char * getContent();
+	inline const char * getContent() { return content_.c_str(); }
+	inline const char * fileName() { return file_name_.c_str(); }
 
 private:
 	std::string file_name_;
 	std::string content_;
+	//v8::ScriptOrigin origin_;
 };
 

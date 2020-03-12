@@ -1,9 +1,10 @@
 #include "ScriptFile.h"
 #include <memory>
 
-ScriptFile::ScriptFile(const char* file):file_name_(file)
+ScriptFile::ScriptFile(const char* file) :
+	file_name_(file)
 {
-	
+
 }
 
 ScriptFile::~ScriptFile()
@@ -23,7 +24,7 @@ bool ScriptFile::load() {
 		return false;
 	}
 	rewind(_fd);
-	std::unique_ptr<char> _buffer(new char[_size+1]);
+	std::unique_ptr<char> _buffer(new char[_size + 1]);
 	_buffer.get()[_size] = '\0';
 	for (size_t i = 0; i < _size;) {
 		i += fread_s(&_buffer.get()[i], _size - i, 1, _size - i, _fd);
@@ -41,8 +42,4 @@ bool ScriptFile::loadBySource(const char * source)
 {
 	content_ = source;
 	return true;
-}
-
-const char * ScriptFile::getContent() {
-	return content_.c_str();
 }

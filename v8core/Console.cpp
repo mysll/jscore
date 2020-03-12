@@ -12,14 +12,6 @@ Console::~Console()
 {
 }
 
-//static void LogCallback(const FunctionCallbackInfo<Value>& args) {
-//	Isolate*_isolate = args.GetIsolate();
-//	HandleScope _scope(_isolate);
-//	Handle<Value> arg = args[0];
-//	String::Utf8Value value(_isolate, arg);
-//	printf("%s\n", *value);
-//}
-
 void Console::ctor(const FunctionCallbackInfo<Value>& args)
 {
 	Isolate*_isolate = args.GetIsolate();
@@ -50,7 +42,6 @@ void Console::log(const FunctionCallbackInfo<Value>& args)
 	printf("[log]%s\n", *value);
 }
 
-
 void Initialize(v8::Local<v8::Object> target, v8::Local<v8::Context> context) {
 	Environment* env = Environment::GetCurrent(context);
 	if (env == nullptr) {
@@ -67,10 +58,11 @@ void Initialize(v8::Local<v8::Object> target, v8::Local<v8::Context> context) {
 	env->SetProtoMethod(ctor, "info", Console::info);
 	env->SetProtoMethod(ctor, "log", Console::log);
 
+	Local<Object> instance = ctor->GetFunction(context).ToLocalChecked()->NewInstance(context).ToLocalChecked();
 	target->Set(
 		context,
-		FIXED_ONE_BYTE_STRING(env->isolate(), "Console"),
-		ctor->GetFunction(context).ToLocalChecked()
+		FIXED_ONE_BYTE_STRING(env->isolate(), "console"),
+		instance
 	);
 
 	env->set_console_template(ctor);

@@ -28,9 +28,6 @@
     <ClCompile Include="ScriptFile.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="JsContext.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Console.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -55,9 +52,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ScriptFile.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="JsContext.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Console.h">
