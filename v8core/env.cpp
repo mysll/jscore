@@ -20,11 +20,11 @@ Environment::~Environment()
 {
 }
 
-void Environment::registerInternalModule(core_module * internals)
+void Environment::registerInternalModule(Local<Object>& target, core_module * internals)
 {
 	core_module * m = internals;
 	while (m) {
-		m->reg(context());
+		m->reg(target, context());
 		m = m->next;
 	}
 }

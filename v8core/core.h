@@ -2,7 +2,7 @@
 #include "v8.h"
 #include "libplatform/libplatform.h"
 
-typedef void(*reg_func)(v8::Local<v8::Context>);
+typedef void(*reg_func)(v8::Local<v8::Object>, v8::Local<v8::Context>);
 
 struct core_module 
 {

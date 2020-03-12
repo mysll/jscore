@@ -75,7 +75,7 @@ public:
 		const char* name,
 		v8::FunctionCallback callback);
 
-	void registerInternalModule(core_module* internals);
+	void registerInternalModule(v8::Local<v8::Object>& target, core_module* internals);
 
 	bool ExecuteScript(const char * source);
 

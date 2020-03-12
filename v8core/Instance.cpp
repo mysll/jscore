@@ -2,6 +2,7 @@
 #include "api.h"
 #include "env.h"
 #include "core.h"
+#include "Utils.h"
 using namespace v8;
 
 Instance::Instance(
@@ -35,7 +36,11 @@ std::unique_ptr<Environment> Instance::CreateMainEnvironment(core_module* modlis
 	Local<Context> context = NewContext(isolate_);
 	Context::Scope context_scope(context);
 	std::unique_ptr<Environment> env = std::make_unique<Environment>(isolate_, context);
-	env->registerInternalModule(modlist_internal);
+	Local<Object> global = context->Global();
+	env->registerInternalModule(global, modlist_internal);
+	// TODO(joyeecheung): this can be done in JS land now.
+	global->Set(context, FIXED_ONE_BYTE_STRING(isolate_, "global"), global)
+		.Check();
 	return env;
 }
 
@@ -43,7 +48,7 @@ void Instance::run()
 {
 	{
 		HandleScope handle_scope(isolate_);
-		Local<Context> context = NewContext(isolate_, env()->getTemplate());
+		Local<Context> context = env()->context();
 		Context::Scope context_scope(context);
 		env()->AssignToContext(context);
 		env()->ExecuteFile("main.js");
