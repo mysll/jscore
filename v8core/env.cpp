@@ -58,8 +58,31 @@ Local<ObjectTemplate> Environment::getTemplate()
 	return scope.Escape(globals);
 }
 
+void Environment::registerObject(BaseObject * obj)
+{
+	objects_.emplace(obj);
+}
+
+void Environment::unregisterObject(BaseObject * obj)
+{
+	objects_.erase(obj);
+}
+
+void Environment::modifyObjectCount(int count)
+{
+	count_ += count;
+}
+
+
 void Environment::Dispose()
 {
+	while (!objects_.empty()) {
+		std::vector<BaseObject*> callbacks(objects_.begin(), objects_.end());
+		for (BaseObject* cb : callbacks) {
+			cb->DeleteMe();
+			objects_.erase(cb);
+		}
+	}
 }
 
 bool Environment::runScript(ScriptFile* file)

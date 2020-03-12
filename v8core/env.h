@@ -10,41 +10,12 @@ class IsolateData {
 
 };
 
-class CleanupHookCallback {
-public:
-	CleanupHookCallback(void(*fn)(void*),
-		void* arg,
-		uint64_t insertion_order_counter)
-		: fn_(fn), arg_(arg), insertion_order_counter_(insertion_order_counter) {}
-
-	// Only hashes `arg_`, since that is usually enough to identify the hook.
-	struct Hash {
-		inline size_t operator()(const CleanupHookCallback& cb) const;
-	};
-
-	// Compares by `fn_` and `arg_` being equal.
-	struct Equal {
-		inline bool operator()(const CleanupHookCallback& a,
-			const CleanupHookCallback& b) const;
-	};
-
-	inline BaseObject* GetBaseObject() const;
-
-private:
-	friend class Environment;
-	void(*fn_)(void*);
-	void* arg_;
-
-	// We keep track of the insertion order for these objects, so that we can
-	// call the callbacks in reverse order when we are cleaning up.
-	uint64_t insertion_order_counter_;
-};
-
 class Environment
 {
 public:
 	Environment(v8::Isolate* isolate, v8::Local<v8::Context> context);
 	~Environment();
+	void Dispose();
 
 	inline v8::Isolate* isolate() const;
 	inline v8::Local<v8::Context> context() const;
@@ -85,19 +56,23 @@ public:
 
 	v8::Local<v8::ObjectTemplate> getTemplate();
 
-	void Dispose();
+	void registerObject(BaseObject* obj);
+
+	void unregisterObject(BaseObject* obj);
+
+	void modifyObjectCount(int count);
 
 private:
 	bool runScript(ScriptFile* source);
 
 private:
 
-	std::unordered_set<CleanupHookCallback,
-		CleanupHookCallback::Hash,
-		CleanupHookCallback::Equal> cleanup_hooks_;
+	std::unordered_set<BaseObject*> objects_;
 
 	v8::Isolate* const isolate_;
 	v8::Global<v8::Context> context_;
 	v8::Global<v8::FunctionTemplate> console_template_;
+
+	size_t count_;
 };
 

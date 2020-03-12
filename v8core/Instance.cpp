@@ -38,7 +38,6 @@ std::unique_ptr<Environment> Instance::CreateMainEnvironment(core_module* modlis
 	std::unique_ptr<Environment> env = std::make_unique<Environment>(isolate_, context);
 	Local<Object> global = context->Global();
 	env->registerInternalModule(global, modlist_internal);
-	// TODO(joyeecheung): this can be done in JS land now.
 	global->Set(context, FIXED_ONE_BYTE_STRING(isolate_, "global"), global)
 		.Check();
 	return env;

@@ -32,11 +32,12 @@ public:
 		return static_cast<T*>(wrap);
 	}
 
+	void DeleteMe();
+
 private:
 	static void WeakCallback(const v8::WeakCallbackInfo<BaseObject>& data) {
 		BaseObject* wrap = data.GetParameter();
-		wrap->handle_.Reset();
-		delete wrap;
+		wrap->DeleteMe();
 	}
 	v8::Global<v8::Object> handle_;
 	Environment* env_;
